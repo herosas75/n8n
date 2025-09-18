@@ -1,0 +1,191 @@
+{
+  "name": "GetWeather",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 12
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "fd373288-14de-496f-9b5d-e2e24e699197",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "cityName": "zapopan"
+      },
+      "type": "n8n-nodes-base.openWeatherMap",
+      "typeVersion": 1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "2c5986ac-096d-444e-994c-e3a920edb691",
+      "name": "OpenWeatherMap",
+      "credentials": {
+        "openWeatherMapApi": {
+          "id": "qdeblTMt1Pk9WaNJ",
+          "name": "OpenWeatherMap account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "from": "+17753309108",
+        "to": "<your personal #>",
+        "message": "=Hola, en  {{ $json.name }}, la temperatura es de {{ $json.main.temp }}, con humedad {{ $json.main.humidity }}, y con  {{ $json.weather[0].description }}",
+        "options": {
+          "statusCallback": ""
+        }
+      },
+      "type": "n8n-nodes-base.twilio",
+      "typeVersion": 1,
+      "position": [
+        448,
+        0
+      ],
+      "id": "5deaef28-51e9-4b9f-bcdc-70fc04d81725",
+      "name": "Send an SMS/MMS/WhatsApp message",
+      "credentials": {
+        "twilioApi": {
+          "id": "9WybGqtby1W2jY8a",
+          "name": "Twilio account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "<your email>",
+        "subject": "Todays Weather",
+        "emailType": "text",
+        "message": "=Hola !! , El clima en  {{ $json.name }}, es de {{ $json.main.temp }}, con  humedad de , y {{ $json.weather[0].description }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        464,
+        432
+      ],
+      "id": "5fa8247e-2183-43c8-b6b3-e48ef365852c",
+      "name": "Send a message",
+      "webhookId": "87a24f2b-57e3-4ac4-bd44-5ed1fddc7daf",
+      "alwaysOutputData": true,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "MGSpuVOOdL1cS9y3",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "http://127.0.0.1:8000/myapi/weather?lat=20.7167&lon=-103.4&API_KEY=<your key>",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        224,
+        192
+      ],
+      "id": "e15e458c-e15a-496e-a95d-9e1dc4a52297",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "from": "+17753309108",
+        "to": "<Your personal #>",
+        "message": "=Hi There, this is an API Test call from  {{ $json.body.locationName }}, Temp is: {{ $json.body.temp }}, with a {{ $json.body.humidity }} humidity, and {{ $json.body.groupDescription }} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.twilio",
+      "typeVersion": 1,
+      "position": [
+        448,
+        192
+      ],
+      "id": "1a027bde-a3df-410b-bb84-845a2359c16f",
+      "name": "Send an SMS/MMS/WhatsApp message1",
+      "credentials": {
+        "twilioApi": {
+          "id": "9WybGqtby1W2jY8a",
+          "name": "Twilio account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "OpenWeatherMap",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenWeatherMap": {
+      "main": [
+        [
+          {
+            "node": "Send an SMS/MMS/WhatsApp message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Send an SMS/MMS/WhatsApp message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Mexico_City",
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": -1
+  },
+  "versionId": "cf46dd27-32a2-4cb1-b347-84411faf5f11",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0e08a368a36bcc0296d9d7a47ff783a7f3d2d898efbd76e1a6bea9b4406bbc26"
+  },
+  "id": "YTqQeaouInT5tlbY",
+  "tags": []
+}
