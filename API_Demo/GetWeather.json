@@ -42,7 +42,7 @@
     {
       "parameters": {
         "from": "+17753309108",
-        "to": "+523331311092",
+        "to": "<your personal #>",
         "message": "=Hola, en  {{ $json.name }}, la temperatura es de {{ $json.main.temp }}, con humedad {{ $json.main.humidity }}, y con  {{ $json.weather[0].description }}",
         "options": {
           "statusCallback": ""
@@ -65,7 +65,7 @@
     },
     {
       "parameters": {
-        "sendTo": "hector.rosas.rosales@gmail.com",
+        "sendTo": "<your email>",
         "subject": "Todays Weather",
         "emailType": "text",
         "message": "=Hola !! , El clima en  {{ $json.name }}, es de {{ $json.main.temp }}, con  humedad de , y {{ $json.weather[0].description }}",
@@ -92,7 +92,7 @@
     },
     {
       "parameters": {
-        "url": "http://127.0.0.1:8000/myapi/weather?lat=20.7167&lon=-103.4&API_KEY=cabd35c9bdd923d296647cc2705a3331",
+        "url": "http://127.0.0.1:8000/myapi/weather?lat=20.7167&lon=-103.4&API_KEY=<your key>",
         "options": {
           "response": {
             "response": {
@@ -113,7 +113,7 @@
     {
       "parameters": {
         "from": "+17753309108",
-        "to": "+523331311092",
+        "to": "<Your personal #>",
         "message": "=Hi There, this is an API Test call from  {{ $json.body.locationName }}, Temp is: {{ $json.body.temp }}, with a {{ $json.body.humidity }} humidity, and {{ $json.body.groupDescription }} ",
         "options": {}
       },
